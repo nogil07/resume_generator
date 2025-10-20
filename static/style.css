@@ -1,69 +1,86 @@
-:root {
-  --primary: #000000;
-  --secondary: #333333;
-  --accent: #00A99D;
-  --background: #FFFFFF;
-  --text-light: #FFFFFF;
-  --text-dark: #000000;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-  --heading-font: 'Helvetica', sans-serif;
-  --body-font: 'Helvetica', sans-serif;
+:root {
+  /* Light Theme Palette for Form */
+  --background-light: #ffffff;
+  --primary-light: #f0f0f0;
+  --border-light: #e0e0e0;
+  --text-main-light: #333333;
+  --text-secondary-light: #666666;
+
+  /* Accent for Glow (remains same) */
+  --accent-glow: #00c6ff;
+
+  /* Resume Preview (Untouched) */
+  --preview-primary: #000000;
+  --preview-secondary: #333333;
+  --preview-background: #FFFFFF;
+  --preview-font: 'Helvetica', sans-serif;
 
   --spacing-unit: 4px;
-  --page-padding: 30px;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px var(--accent-glow), 0 0 10px var(--accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--accent-glow), 0 0 30px var(--accent-glow);
+  }
+  100% {
+    box-shadow: 0 0 5px var(--accent-glow), 0 0 10px var(--accent-glow);
+  }
 }
 
 body {
   margin: 0;
-  font-family: var(--body-font);
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  background-color: var(--background);
-  color: var(--text-dark);
-  line-height: 1.15;
-  font-size: 11px;
+  background: linear-gradient(to top, #0B2B26, #163832, #235347, #8EB69B, #DAF1DE);
+  color: var(--preview-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--heading-font);
   font-weight: 700;
-  color: var(--primary);
 }
 
 .app-header {
-  background-color: var(--text-light);
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   padding: 16px 32px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #d4e0de;
 }
 
 .app-header h1 {
   margin: 0;
   font-size: 1.5rem;
+  color: var(--text-main-light);
 }
 
 .main-button {
-  font-family: var(--heading-font);
-  background-color: var(--accent);
-  color: var(--text-light);
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(45deg, var(--accent-glow), #0072ff);
+  color: #fff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px var(--accent-glow);
   border: none;
-  border-radius: 50px; /* Pill-shaped */
+  border-radius: 50px;
   padding: 12px 24px;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 169, 157, 0.3);
   transition: all 0.3s ease;
+  animation: glow 3s infinite linear;
 }
 
 .main-button:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 6px 20px rgba(0, 169, 157, 0.4);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 30px var(--accent-glow);
 }
 
 .app-container {
@@ -74,34 +91,31 @@ h1, h2, h3, h4, h5, h6 {
   align-items: start;
 }
 
+/* Frosted Glass Card Effect for both form and preview containers */
 .card {
-  background: var(--text-light);
-  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.form-card {
   padding: 24px;
-  box-shadow: 0 8px 24px rgba(13, 29, 29, 0.07);
-  transition: all 0.3s ease;
 }
 
-.card:hover {
-  box-shadow: 0 12px 32px rgba(13, 29, 29, 0.1);
-  transform: translateY(-4px);
-}
-
-.card h2 {
-  margin-top: 0;
-  border-bottom: 2px solid var(--accent);
+.form-card h2, .form-card h3 {
+  color: var(--preview-primary);
+  border-bottom: 1px solid var(--accent-glow);
   padding-bottom: 8px;
   display: inline-block;
-}
-
-.form-group {
-  margin-bottom: 20px;
+  margin-top: 0;
 }
 
 .form-group label {
   display: block;
-  font-family: var(--heading-font);
-  color: var(--secondary);
+  color: var(--preview-secondary);
   margin-bottom: 8px;
   font-size: 0.9rem;
   font-weight: 700;
@@ -110,11 +124,10 @@ h1, h2, h3, h4, h5, h6 {
 .form-input {
   width: 100%;
   padding: 12px;
-  border: 1px solid #cdd9d7;
-  border-radius: 12px; /* Rounded rectangle */
-  background-color: #f5f8f7;
-  color: var(--text-dark);
-  font-family: var(--body-font);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background-color: var(--background-light);
+  color: var(--text-main-light);
   font-size: 1rem;
   transition: all 0.3s ease;
   box-sizing: border-box;
@@ -122,58 +135,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .form-input:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(0, 169, 157, 0.2);
-  background-color: var(--text-light);
-}
-
-/* Preview-specific styles */
-.resume-preview-document {
-  background: #fff;
-  padding: 15px 30px 30px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  min-height: 800px; /* Give it some height */
-}
-
-.resume-header {
-  text-align: center;
-  border-bottom: 2px solid var(--primary);
-  padding-bottom: calc(var(--spacing-unit) * 5);
-  margin-bottom: calc(var(--spacing-unit) * 5);
-}
-
-.resume-header h1 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: bold;
-  color: var(--primary);
-}
-
-.contact-info {
-  margin-top: calc(var(--spacing-unit) * 4);
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap; /* Allow wrapping on smaller screens */
-}
-
-.contact-info span {
-  font-family: var(--body-font);
-  color: var(--secondary);
-  font-size: 11px;
-}
-
-/* Form Section Dividers and Buttons */
-hr {
-  border: none;
-  border-top: 1px solid #e0e0e0;
-  margin: 24px 0;
+  border-color: var(--accent-glow);
+  box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.2);
 }
 
 .secondary-button {
   background: none;
-  border: 1px solid var(--secondary);
-  color: var(--secondary);
+  border: 1px solid var(--preview-primary);
+  color: var(--preview-primary);
   border-radius: 50px;
   padding: 8px 16px;
   cursor: pointer;
@@ -182,32 +151,117 @@ hr {
 }
 
 .secondary-button:hover {
-  background: var(--secondary);
-  color: var(--text-light);
+  background: var(--preview-primary);
+  color: var(--background-light);
 }
 
 .experience-entry, .education-entry {
   padding: 16px;
-  border: 1px dashed #d4e0de;
+  border: 1px dashed var(--border-light);
   border-radius: 12px;
   margin-bottom: 16px;
 }
 
-.experience-entry input, .education-entry input {
+.experience-entry input, .education-entry input, .experience-entry textarea {
   margin-bottom: 10px;
 }
 
-/* Resume Preview Sections */
+form hr {
+  border: none;
+  border-top: 1px solid var(--border-light);
+  margin: 24px 0;
+}
+
+/* Draggable Section List */
+.section-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 16px;
+}
+
+.section-list-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: grab;
+}
+
+.section-list-item.dragging {
+  opacity: 0.5;
+}
+
+.drag-handle {
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--text-secondary-light);
+}
+
+
+/* --- RESUME PREVIEW STYLES (DO NOT CHANGE) --- */
+@page {
+  margin: 30px;
+}
+
+.resume-preview-document {
+  background: var(--preview-background);
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  min-height: 1000px;
+  color: var(--preview-primary);
+}
+
+.resume-preview-document h1, .resume-preview-document h2, .resume-preview-document h3, .resume-preview-document strong {
+  font-family: var(--preview-font);
+  color: var(--preview-primary);
+}
+
+.resume-preview-document span, .resume-preview-document div, .resume-preview-document li {
+  font-family: var(--preview-font);
+  color: var(--preview-primary);
+  font-size: 11px;
+}
+
+.resume-header {
+  text-align: center;
+  border-bottom: 2px solid var(--preview-primary);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.resume-header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.contact-info {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.contact-info span {
+  color: var(--preview-secondary);
+  font-size: 11px;
+}
+
 .resume-section {
-  margin-top: calc(var(--spacing-unit) * 3);
+  margin-top: 12px;
 }
 
 .resume-section h2 {
   font-size: 13px;
   font-weight: bold;
   text-transform: uppercase;
-  color: var(--secondary);
-  margin-bottom: 4px; /* Space between text and line */
+  color: var(--preview-secondary);
+  margin-bottom: 4px;
 }
 
 hr.section-divider {
@@ -215,17 +269,15 @@ hr.section-divider {
   height: 1px;
   background-color: #ccc;
   margin: 0;
-  margin-bottom: 8px; /* Space between line and content */
+  margin-bottom: 8px;
 }
 
 .job, .school {
-  margin-bottom: var(--spacing-unit);
+  margin-bottom: 4px;
 }
 
 .job-title, .degree-title {
-  font-family: var(--heading-font);
   font-size: 13px;
-  color: var(--text-dark);
   display: flex;
   justify-content: space-between;
 }
@@ -240,12 +292,10 @@ hr.section-divider {
 
 .job-company, .school-name {
   font-weight: 700;
-  color: var(--primary);
 }
 
 .job-description {
-  margin-top: var(--spacing-unit);
-  font-size: 11px;
+  margin-top: 4px;
 }
 
 .skills-list {
@@ -254,6 +304,7 @@ hr.section-divider {
   gap: 8px;
   margin: 0;
   list-style: none;
+  padding: 0;
 }
 
 .bulleted-list {
@@ -267,44 +318,8 @@ hr.section-divider {
 
 .skill-item {
   background-color: #f0f0f0;
-  color: var(--primary);
   padding: 5px 12px;
   border-radius: 12px;
-  font-size: 11px;
-}
-
-@page {
-  margin: 15px 30px 30px;
-}
-
-/* Draggable Section List */
-.section-list {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 16px;
-}
-
-.section-list-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  background-color: #f9f9f9;
-  cursor: grab;
-}
-
-.section-list-item.dragging {
-  opacity: 0.5;
-  background: #eef;
-}
-
-.drag-handle {
-  font-size: 1.2rem;
-  line-height: 1;
-  color: #999;
 }
 
 .meta-text {
