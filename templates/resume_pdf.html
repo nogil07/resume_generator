@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume</title>
+    <style>
+        {{ css | safe }}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="resume-preview-document">
+        <header class="resume-header">
+            <h1>{{ personal.name }}</h1>
+            <div class="contact-info">
+                <span><i class="fas fa-envelope"></i> {{ personal.email }}</span>
+                <span><i class="fas fa-phone"></i> {{ personal.phone }}</span>
+                <span><i class="fab fa-linkedin"></i> {{ personal.linkedin }}</span>
+            </div>
+        </header>
+
+        {% for section_name in section_order %}
+            {% if section_name == 'experience' and visibility.include_experience and experiences %}
+            <section class="resume-section">
+                <h2>Work Experience</h2><hr class="section-divider">
+                {% for exp in experiences %}
+                <div class="job">
+                    <div class="job-title">
+                        <span class="job-company">{{ exp.company }}</span>
+                        <span class="meta-text">{{ exp.dates }}</span>
+                    </div>
+                    <div><strong>{{ exp.title }}</strong></div>
+                    <div class="job-description">{{ exp.desc | replace('\n', '<br>') | safe }}</div>
+                </div>
+                {% endfor %}
+            </section>
+            {% elif section_name == 'education' and visibility.include_education and education %}
+            <section class="resume-section">
+                <h2>Education</h2><hr class="section-divider">
+                {% for edu in education %}
+                <div class="school">
+                    <div class="degree-title">
+                        <span class="school-name">{{ edu.school }}</span>
+                        <span>{{ edu.dates }}</span>
+                    </div>
+                    <div><strong>{{ edu.degree }}</strong></div>
+                </div>
+                {% endfor %}
+            </section>
+            {% elif section_name == 'skills' and visibility.include_skills and skills %}
+            <section class="resume-section">
+                <h2>Skills</h2><hr class="section-divider">
+                <ul class="skills-list">
+                    {% for skill in skills %}
+                    <li class="skill-item">{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% elif section_name == 'projects' and visibility.include_projects and projects %}
+            <section class="resume-section">
+                <h2>Projects</h2><hr class="section-divider">
+                {% for proj in projects %}
+                <div class="job">
+                    <div><strong>{{ proj.title }}</strong></div>
+                    <ul class="job-description bulleted-list">
+                        {% for line in proj.desc.split('\n') %}
+                        <li>{{ line }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </section>
+            {% elif section_name == 'certifications' and visibility.include_certifications and certifications %}
+            <section class="resume-section">
+                <h2>Certifications</h2><hr class="section-divider">
+                <ul class="skills-list">
+                    {% for cert in certifications %}
+                    <li class="skill-item">{{ cert.name }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% elif section_name == 'achievements' and visibility.include_achievements and achievements %}
+            <section class="resume-section">
+                <h2>Achievements</h2><hr class="section-divider">
+                <ul class="skills-list">
+                    {% for achievement in achievements %}
+                    <li class="skill-item">{{ achievement.name }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% elif section_name == 'languages' and visibility.include_languages and languages %}
+            <section class="resume-section">
+                <h2>Languages</h2><hr class="section-divider">
+                <ul class="skills-list">
+                    {% for lang in languages %}
+                    <li class="skill-item">{{ lang.name }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% elif section_name == 'research' and visibility.include_research and research %}
+            <section class="resume-section">
+                <h2>Research & Conferences</h2><hr class="section-divider">
+                {% for res in research %}
+                <div class="job">
+                    <div><strong>{{ res.title }}</strong></div>
+                    <div class="job-description">{{ res.desc | replace('\n', '<br>') | safe }}</div>
+                </div>
+                {% endfor %}
+            </section>
+            {% endif %}
+        {% endfor %}
+
+        {% for section in custom_sections %}
+        <section class="resume-section">
+            <h2>{{ section.title }}</h2><hr class="section-divider">
+            {% for item in section.entries %}
+            <div class="job">
+                <div><strong>{{ item.title }}</strong></div>
+                <div class="job-description">{{ item.desc | replace('\n', '<br>') | safe }}</div>
+            </div>
+            {% endfor %}
+        </section>
+        {% endfor %}
+    </div>
+</body>
+</html>

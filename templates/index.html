@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <h1>Resume Generator</h1>
+        <button type="submit" form="resume-form" class="main-button">Download PDF</button>
+    </header>
+
+    <main class="app-container">
+        <div class="card">
+            <h2>Your Information</h2>
+            <form id="resume-form" action="/generate-pdf" method="post">
+
+                <h3>Sections (Drag to Reorder)</h3>
+                <ul id="section-list" class="section-list">
+                    <li class="section-list-item" draggable="true" data-section="skills">
+                        <span class="drag-handle">?</span>
+                        <input type="checkbox" name="include_skills" checked> Skills
+                    </li>
+                    <li class="section-list-item" draggable="true" data-section="certifications">
+                        <span class="drag-handle">?</span>
+                        <input type="checkbox" name="include_certifications"> Certifications
+                    </li>
+                    <li class="section-list-item" draggable="true" data-section="projects">
+                        <span class="drag-handle">?</span>
+                        <input type="checkbox" name="include_projects" checked> Projects
+                    </li>
+                    <li class="section-list-item" draggable="true" data-section="education">
+                        <span class="drag-handle">?</span>
+                        <input type="checkbox" name="include_education" checked> Education
+                    </li>
+                    <li class="section-list-item" draggable="true" data-section="research">
+                        <span class="drag-handle">?</span>
+                        <input type="checkbox" name="include_research"> Research & Conferences
+                    </li>
+                    <li class="section-list-item" draggable="true" data-section="experience">
+                        <span class="drag-handle">?</span>
+                        <input type="checkbox" name="include_experience" checked> Work Experience
+                    </li>
+                    <li class="section-list-item" draggable="true" data-section="achievements">
+                        <span class="drag-handle">?</span>
+                        <input type="checkbox" name="include_achievements"> Achievements
+                    </li>
+                    <li class="section-list-item" draggable="true" data-section="languages">
+                        <span class="drag-handle">?</span>
+                        <input type="checkbox" name="include_languages"> Languages
+                    </li>
+                </ul>
+                <input type="hidden" name="section_order" id="section-order">
+
+
+                <hr>
+
+                <h3>Personal Information</h3>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" name="phone" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn Profile</label>
+                    <input type="text" id="linkedin" name="linkedin" class="form-input">
+                </div>
+                <hr>
+
+                <div id="experience-section">
+                    <h3>Work Experience</h3>
+                    <div class="experience-entry">
+                        <input type="text" name="experience-title-1" placeholder="Job Title" class="form-input">
+                        <input type="text" name="experience-company-1" placeholder="Company" class="form-input">
+                        <input type="text" name="experience-dates-1" placeholder="Dates (e.g., Jan 2020 - Present)" class="form-input">
+                        <textarea name="experience-desc-1" placeholder="Description of responsibilities..." class="form-input"></textarea>
+                    </div>
+                </div>
+                <button type="button" id="add-experience" class="secondary-button">+ Add Experience</button>
+
+                <hr>
+
+                <div id="education-section">
+                    <h3>Education</h3>
+                    <div class="education-entry">
+                        <input type="text" name="education-degree-1" placeholder="Degree (e.g., B.S. in Computer Science)" class="form-input">
+                        <input type="text" name="education-school-1" placeholder="School" class="form-input">
+                        <input type="text" name="education-dates-1" placeholder="Dates (e.g., Aug 2016 - May 2020)" class="form-input">
+                    </div>
+                </div>
+                <button type="button" id="add-education" class="secondary-button">+ Add Education</button>
+
+                <hr>
+
+                <h3>Skills</h3>
+                <textarea name="skills" placeholder="Enter skills, separated by commas..." class="form-input"></textarea>
+
+                <hr>
+
+                <div id="project-section">
+                    <h3>Projects</h3>
+                    <div class="project-entry">
+                        <input type="text" name="project-title-1" placeholder="Project Title" class="form-input">
+                        <textarea name="project-desc-1" placeholder="Enter project description as bullet points..." class="form-input"></textarea>
+                    </div>
+                </div>
+                <button type="button" id="add-project" class="secondary-button">+ Add Project</button>
+
+                <hr>
+
+                <div id="certification-section">
+                    <h3>Certifications</h3>
+                    <div class="certification-entry">
+                        <input type="text" name="cert-name-1" placeholder="Certification Name" class="form-input">
+                    </div>
+                </div>
+                <button type="button" id="add-certification" class="secondary-button">+ Add Certification</button>
+
+                <hr>
+
+                <div id="achievement-section">
+                    <h3>Achievements</h3>
+                    <div class="achievement-entry">
+                        <input type="text" name="achievement-name-1" placeholder="Achievement" class="form-input">
+                    </div>
+                </div>
+                <button type="button" id="add-achievement" class="secondary-button">+ Add Achievement</button>
+
+                <hr>
+
+                <div id="language-section">
+                    <h3>Languages</h3>
+                    <div class="language-entry">
+                        <input type="text" name="language-name-1" placeholder="Language (e.g., Spanish - Fluent)" class="form-input">
+                    </div>
+                </div>
+                <button type="button" id="add-language" class="secondary-button">+ Add Language</button>
+
+                <hr>
+
+                <div id="research-section">
+                    <h3>Research & Conferences</h3>
+                    <div class="research-entry">
+                        <input type="text" name="research-title-1" placeholder="Title of Paper or Conference" class="form-input">
+                        <textarea name="research-desc-1" placeholder="Description, publication, or event details..." class="form-input"></textarea>
+                    </div>
+                </div>
+                <button type="button" id="add-research" class="secondary-button">+ Add Research</button>
+
+                <hr>
+
+                <div id="custom-sections-container"></div>
+                <button type="button" id="add-custom-section" class="main-button" style="width: 100%; margin-top: 20px;">++ Add Custom Section</button>
+
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="resume-preview-document">
+                <header class="resume-header">
+                    <h1 id="preview-name">Your Name</h1>
+                    <div class="contact-info">
+                        <span id="preview-email">your.email@example.com</span>
+                        <span id="preview-phone">(123) 456-7890</span>
+                        <span id="preview-linkedin">linkedin.com/in/yourprofile</span>
+                    </div>
+                </header>
+        <section id="preview-experience" class="resume-section">
+          <h2>Work Experience</h2>
+          <!-- JS will populate this -->
+        </section>
+
+        <section id="preview-education" class="resume-section">
+          <h2>Education</h2>
+          <!-- JS will populate this -->
+        </section>
+
+        <section id="preview-skills" class="resume-section">
+          <h2>Skills</h2>
+          <!-- JS will populate this -->
+        </section>
+
+        <section id="preview-projects" class="resume-section">
+          <h2>Projects</h2>
+          <!-- JS will populate this -->
+        </section>
+
+        <section id="preview-certifications" class="resume-section">
+          <h2>Certifications</h2>
+          <!-- JS will populate this -->
+        </section>
+
+        <section id="preview-achievements" class="resume-section">
+          <h2>Achievements</h2>
+          <!-- JS will populate this -->
+        </section>
+
+        <section id="preview-languages" class="resume-section">
+          <h2>Languages</h2>
+          <!-- JS will populate this -->
+        </section>
+
+        <section id="preview-research" class="resume-section">
+          <h2>Research & Conferences</h2>
+          <!-- JS will populate this -->
+        </section>
+
+        <div id="preview-custom-sections"></div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
